@@ -92,6 +92,8 @@ function App() {
                 max={budget.maximumSpending}
                 amount={budget.amount}
                 title={budget.name}
+                isGray={budget.name === 'Uncategorized'}
+                isPrograssBarHidden={budget.name === 'Uncategorized'}
               />
             ))}
           </Stack>
