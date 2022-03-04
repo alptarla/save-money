@@ -10,9 +10,13 @@ import { useBudget } from './context/BudgetContext'
 function App() {
   const [isShowBudgetModal, setIsShowBudgetModal] = useState(false)
   const [isShowExpenseModal, setIsShowExpenseModal] = useState(false)
+  const [selectedBudget, setSelectedBudget] = useState(null)
 
   const showBudgetModal = (isShow) => () => setIsShowBudgetModal(isShow)
-  const showExpenseModal = (isShow) => () => setIsShowExpenseModal(isShow)
+  const showExpenseModal = (isShow, budget) => () => {
+    setIsShowExpenseModal(isShow)
+    setSelectedBudget(budget)
+  }
 
   const { addBudget, budgets, getBudgets, updateBudget } = useBudget()
 
@@ -56,6 +60,7 @@ function App() {
   }
 
   const handleAddExpense = (newExpense) => {
+    console.log('newExpense', newExpense)
     let existingBudget = findBudgetByName(newExpense.budget)
 
     if (!existingBudget && newExpense.budget === 'Uncategorized') {
@@ -94,6 +99,7 @@ function App() {
                 title={budget.name}
                 isGray={budget.name === 'Uncategorized'}
                 isPrograssBarHidden={budget.name === 'Uncategorized'}
+                onAddExpense={showExpenseModal(true, budget)}
               />
             ))}
             <BudgetCard
@@ -117,6 +123,7 @@ function App() {
         show={isShowExpenseModal}
         onHide={showExpenseModal(false)}
         onAdd={handleAddExpense}
+        defaultBudget={selectedBudget}
       />
     </>
   )

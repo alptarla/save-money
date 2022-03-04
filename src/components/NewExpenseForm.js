@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useBudget } from '../context/BudgetContext'
 
-function NewExpenseForm({ onSubmit }) {
+function NewExpenseForm({ onSubmit, defaultBudget }) {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
-  const [budget, setBudget] = useState('Uncategorized')
+  const [budget, setBudget] = useState(defaultBudget?.name || 'Uncategorized')
 
   const handleDescriptionChange = (e) => setDescription(e.target.value)
   const handleAmountChange = (e) => setAmount(e.target.value)
@@ -51,11 +51,13 @@ function NewExpenseForm({ onSubmit }) {
       </Form.Group>
       <Form.Group className="mb-2">
         <Form.Label htmlFor="budget">Budget</Form.Label>
-        <Form.Select id="budget" onChange={handleBudgetChange} value={budget}>
+        <Form.Select
+          defaultValue={defaultBudget?.name || 'Uncategorized'}
+          id="budget"
+          onChange={handleBudgetChange}
+        >
           {!isThereUncategorized && (
-            <option defaultChecked value="Uncategorized">
-              Uncategorized
-            </option>
+            <option value="Uncategorized">Uncategorized</option>
           )}
           {budgets.map((budget) => (
             <option key={budget.id} value={budget.name}>
