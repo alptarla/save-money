@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import StorageService from '../services/StorageService'
 
 const BudgetContext = createContext(null)
@@ -20,6 +20,13 @@ function budgetReducer(state = initialState, action) {
         ...state,
         budgets: action.payload,
       }
+    case 'UPDATE_BUDGET':
+      return {
+        ...state,
+        budgets: state.budgets.map((budget) => {
+          return budget.id === action.payload.id ? action.payload : budget
+        }),
+      }
     default:
       return state
   }
@@ -27,6 +34,10 @@ function budgetReducer(state = initialState, action) {
 
 function BudgetProvider({ children }) {
   const [state, dispatch] = useReducer(budgetReducer, initialState)
+
+  useEffect(() => {
+    StorageService.set('budget', state.budgets)
+  }, [state])
 
   const addBudget = (newBudget) => {
     dispatch({ type: 'SET_BUDGET', payload: newBudget })
@@ -38,8 +49,14 @@ function BudgetProvider({ children }) {
     dispatch({ type: 'SET_BUDGETS', payload: budgets })
   }
 
+  const updateBudget = (newBudget) => {
+    dispatch({ type: 'UPDATE_BUDGET', payload: newBudget })
+  }
+
   return (
-    <BudgetContext.Provider value={{ ...state, addBudget, getBudgets }}>
+    <BudgetContext.Provider
+      value={{ ...state, addBudget, getBudgets, updateBudget }}
+    >
       {children}
     </BudgetContext.Provider>
   )

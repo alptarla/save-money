@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import BudgetCard from './components/BudgetCard'
 import BudgetModal from './components/BudgetModal'
+import ExpenseModal from './components/ExpenseModal'
 import Header from './components/Header'
 import { useBudget } from './context/BudgetContext'
 
@@ -13,7 +14,7 @@ function App() {
   const showBudgetModal = (isShow) => () => setIsShowBudgetModal(isShow)
   const showExpanseModal = (isShow) => () => setIsShowExpenseModal(isShow)
 
-  const { addBudget, budgets, getBudgets } = useBudget()
+  const { addBudget, budgets, getBudgets, updateBudget } = useBudget()
 
   useEffect(() => {
     getBudgets()
@@ -22,10 +23,48 @@ function App() {
   const handleAddBudget = (newBudget) => {
     addBudget({
       id: nanoid(),
+      expenses: [],
       ...newBudget,
     })
 
     setIsShowBudgetModal(false)
+  }
+
+  const createUncategorizedBudget = (expense = {}) => {
+    addBudget({
+      id: nanoid(),
+      name: 'Uncategorized',
+      maximumSpending: null,
+      expenses: [
+        {
+          id: nanoid(),
+          ...expense,
+        },
+      ],
+    })
+  }
+
+  const findBudgetByName = (name) => {
+    return budgets.find((budget) => budget.name === name)
+  }
+
+  const handleAddExpense = (newExpense) => {
+    let existingBudget = findBudgetByName(newExpense.budget)
+
+    if (!existingBudget && newExpense.budget === 'Uncategorized') {
+      createUncategorizedBudget(newExpense)
+      setIsShowExpenseModal(false)
+
+      return
+    }
+
+    existingBudget.expenses.push({
+      id: nanoid(),
+      ...newExpense,
+    })
+
+    updateBudget(existingBudget)
+    setIsShowExpenseModal(false)
   }
 
   return (
@@ -53,6 +92,11 @@ function App() {
         show={isShowBudgetModal}
         onHide={showBudgetModal(false)}
         onAdd={handleAddBudget}
+      />
+      <ExpenseModal
+        show={isShowExpenseModal}
+        onHide={showExpanseModal(false)}
+        onAdd={handleAddExpense}
       />
     </>
   )
