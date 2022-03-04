@@ -112,7 +112,7 @@ function App() {
           onAddBudget={showBudgetModal(true)}
           onAddExpense={showExpenseModal(true)}
         />
-        <main className="my-5">
+        <main className="my-5" style={{ maxWidth: 900, margin: 'auto' }}>
           {budgets.length ? (
             <Stack direction="vertical" gap={5}>
               {budgets.map((budget) => (
