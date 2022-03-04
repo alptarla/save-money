@@ -20,6 +20,11 @@ function App() {
     getBudgets()
   }, [])
 
+  const totalAmount = budgets.reduce((acc, curr) => acc + curr.amount, 0)
+  const totalSpending = budgets.reduce((acc, curr) => {
+    return acc + parseInt(curr.maximumSpending || 0)
+  }, 0)
+
   const handleAddBudget = (newBudget) => {
     addBudget({
       id: nanoid(),
