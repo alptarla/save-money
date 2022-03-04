@@ -2,9 +2,24 @@ import React from 'react'
 import { Button, Card, ProgressBar, Stack } from 'react-bootstrap'
 import BudgetPrice from './BudgetPrice'
 
-function BudgetCard({ title, amount, max, onAddExpense, onViewExpense }) {
+function BudgetCard({
+  title,
+  amount,
+  max,
+  onAddExpense,
+  onViewExpense,
+  isGray,
+}) {
+  let cardClassNames = null
+
+  if (amount > max) {
+    cardClassNames = 'bg-danger bg-opacity-10'
+  } else if (isGray) {
+    cardClassNames = 'bg-light'
+  }
+
   return (
-    <Card>
+    <Card className={cardClassNames}>
       <Card.Body>
         <Stack direction="horizontal">
           <Card.Title className="me-auto">{title}</Card.Title>
