@@ -13,7 +13,7 @@ function App() {
   const showBudgetModal = (isShow) => () => setIsShowBudgetModal(isShow)
   const showExpanseModal = (isShow) => () => setIsShowExpenseModal(isShow)
 
-  const { addBudget } = useBudget()
+  const { addBudget, budgets } = useBudget()
 
   const handleAddBudget = (newBudget) => {
     addBudget({
@@ -33,7 +33,14 @@ function App() {
           onAddExpense={showExpanseModal(true)}
         />
         <main>
-          <BudgetCard amount={125} max={200} title="Shopping" />
+          {budgets.map((budget) => (
+            <BudgetCard
+              key={budget.id}
+              max={budget.maximumSpending}
+              amount={100}
+              title={budget.name}
+            />
+          ))}
         </main>
       </Container>
 
