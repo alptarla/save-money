@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import { useEffect, useState } from 'react'
-import { Container } from 'react-bootstrap'
+import { Container, Stack } from 'react-bootstrap'
 import BudgetCard from './components/BudgetCard'
 import BudgetModal from './components/BudgetModal'
 import ExpenseModal from './components/ExpenseModal'
@@ -75,15 +75,17 @@ function App() {
           onAddBudget={showBudgetModal(true)}
           onAddExpense={showExpanseModal(true)}
         />
-        <main>
-          {budgets.map((budget) => (
-            <BudgetCard
-              key={budget.id}
-              max={budget.maximumSpending}
-              amount={100}
-              title={budget.name}
-            />
-          ))}
+        <main className="my-5">
+          <Stack direction="vertical" gap={5}>
+            {budgets.map((budget) => (
+              <BudgetCard
+                key={budget.id}
+                max={budget.maximumSpending}
+                amount={100}
+                title={budget.name}
+              />
+            ))}
+          </Stack>
         </main>
       </Container>
 
