@@ -9,9 +9,14 @@ function BudgetCard({
   onAddExpense,
   onViewExpense,
   isGray,
+  isActionHidden = false,
+  isPrograssBarHidden = false,
 }) {
-  let cardClassNames =
-    amount > max ? 'bg-danger bg-opacity-10' : isGray ? 'bg-light' : null
+  let cardClassNames = isGray
+    ? 'bg-light'
+    : amount > max
+    ? 'bg-danger bg-opacity-10'
+    : null
 
   const progressBarColor =
     amount / max < 0.5 ? 'primary' : amount / max < 0.75 ? 'warning' : 'danger'
@@ -23,24 +28,28 @@ function BudgetCard({
           <Card.Title className="me-auto">{title}</Card.Title>
           <BudgetPrice amount={amount} max={max} />
         </Stack>
-        <ProgressBar
-          className="my-3"
-          max={max}
-          now={amount}
-          variant={progressBarColor}
-        />
-        <Stack direction="horizontal" gap={2}>
-          <Button
-            variant="outline-primary"
-            className="ms-auto"
-            onClick={onAddExpense}
-          >
-            Add Expense
-          </Button>
-          <Button variant="outline-secondary" onClick={onViewExpense}>
-            View Expense
-          </Button>
-        </Stack>
+        {!isPrograssBarHidden && (
+          <ProgressBar
+            className="my-3"
+            max={max}
+            now={amount}
+            variant={progressBarColor}
+          />
+        )}
+        {!isActionHidden && (
+          <Stack direction="horizontal" gap={2}>
+            <Button
+              variant="outline-primary"
+              className="ms-auto"
+              onClick={onAddExpense}
+            >
+              Add Expense
+            </Button>
+            <Button variant="outline-secondary" onClick={onViewExpense}>
+              View Expense
+            </Button>
+          </Stack>
+        )}
       </Card.Body>
     </Card>
   )
