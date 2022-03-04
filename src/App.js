@@ -45,7 +45,7 @@ function App() {
       id: nanoid(),
       name: 'Uncategorized',
       maximumSpending: null,
-      amount: 0,
+      amount: parseInt(expense.amount),
       expenses: [
         {
           id: nanoid(),
