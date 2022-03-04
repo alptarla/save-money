@@ -1,9 +1,10 @@
 import { Container } from 'react-bootstrap'
+import Header from './components/Header'
 
 function App() {
   return (
     <Container>
-      <div className="text-center mt-5 fw-bold fs-1">Save Money</div>
+      <Header title="Budget" />
     </Container>
   )
 }
