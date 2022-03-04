@@ -23,6 +23,10 @@ function NewExpenseForm({ onSubmit }) {
 
   const { budgets } = useBudget()
 
+  const isThereUncategorized = budgets.some((budget) => {
+    return budget.name === 'Uncategorized'
+  })
+
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-2">
@@ -48,9 +52,11 @@ function NewExpenseForm({ onSubmit }) {
       <Form.Group className="mb-2">
         <Form.Label htmlFor="budget">Budget</Form.Label>
         <Form.Select id="budget" onChange={handleBudgetChange} value={budget}>
-          <option defaultChecked value="Uncategorized">
-            Uncategorized
-          </option>
+          {!isThereUncategorized && (
+            <option defaultChecked value="Uncategorized">
+              Uncategorized
+            </option>
+          )}
           {budgets.map((budget) => (
             <option key={budget.id} value={budget.name}>
               {budget.name}
