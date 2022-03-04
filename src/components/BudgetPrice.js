@@ -9,8 +9,12 @@ function BudgetPrice({ amount, max }) {
   return (
     <div>
       <span>{priceFormatter.format(amount)}</span>
-      <span className="mx-1">/</span>
-      <small className="text-muted">{priceFormatter.format(max)}</small>
+      {max && (
+        <>
+          <span className="mx-1">/</span>
+          <small className="text-muted">{priceFormatter.format(max)}</small>
+        </>
+      )}
     </div>
   )
 }
