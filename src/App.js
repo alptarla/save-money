@@ -66,7 +66,6 @@ function App() {
   }
 
   const handleAddExpense = (newExpense) => {
-    console.log('newExpense', newExpense)
     let existingBudget = findBudgetByName(newExpense.budget)
 
     if (!existingBudget && newExpense.budget === 'Uncategorized') {
