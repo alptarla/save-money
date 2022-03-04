@@ -99,7 +99,7 @@ function App() {
       setSelectedBudget(budget)
     }
 
-    if (!selectedBudget.expenses.length) {
+    if (!budget.expenses.length) {
       setIsShowExpenseViewModal(false)
     }
   }
@@ -158,7 +158,7 @@ function App() {
       <ExpenseListModal
         show={isShowExpenseViewModal}
         onHide={showExpenseViewModal(false)}
-        budget={findBudgetByName(selectedBudget?.name)}
+        budget={selectedBudget}
         onRemoveExpense={removeExpense}
       />
     </>
