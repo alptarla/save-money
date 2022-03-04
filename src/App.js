@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import BudgetCard from './components/BudgetCard'
 import BudgetModal from './components/BudgetModal'
@@ -13,7 +13,11 @@ function App() {
   const showBudgetModal = (isShow) => () => setIsShowBudgetModal(isShow)
   const showExpanseModal = (isShow) => () => setIsShowExpenseModal(isShow)
 
-  const { addBudget, budgets } = useBudget()
+  const { addBudget, budgets, getBudgets } = useBudget()
+
+  useEffect(() => {
+    getBudgets()
+  }, [])
 
   const handleAddBudget = (newBudget) => {
     addBudget({
