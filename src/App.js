@@ -96,6 +96,13 @@ function App() {
                 isPrograssBarHidden={budget.name === 'Uncategorized'}
               />
             ))}
+            <BudgetCard
+              max={totalSpending}
+              amount={totalAmount}
+              title="Total"
+              isGray
+              isActionHidden
+            />
           </Stack>
         </main>
       </Container>
