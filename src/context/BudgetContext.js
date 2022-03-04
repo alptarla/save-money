@@ -50,7 +50,12 @@ function BudgetProvider({ children }) {
   }
 
   const updateBudget = (newBudget) => {
-    dispatch({ type: 'UPDATE_BUDGET', payload: newBudget })
+    const budgetObj = { ...newBudget }
+    budgetObj.amount = budgetObj.expenses.reduce((acc, curr) => {
+      return acc + parseInt(curr.amount)
+    }, 0)
+
+    dispatch({ type: 'UPDATE_BUDGET', payload: budgetObj })
   }
 
   return (

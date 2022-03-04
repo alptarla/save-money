@@ -80,8 +80,6 @@ function App() {
       ...newExpense,
     })
 
-    existingBudget.amount += parseInt(newExpense.amount)
-
     updateBudget(existingBudget)
     setIsShowExpenseModal(false)
   }
