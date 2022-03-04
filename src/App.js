@@ -24,6 +24,7 @@ function App() {
     addBudget({
       id: nanoid(),
       expenses: [],
+      amount: 0,
       ...newBudget,
     })
 
@@ -35,6 +36,7 @@ function App() {
       id: nanoid(),
       name: 'Uncategorized',
       maximumSpending: null,
+      amount: 0,
       expenses: [
         {
           id: nanoid(),
@@ -63,6 +65,8 @@ function App() {
       ...newExpense,
     })
 
+    existingBudget.amount += parseInt(newExpense.amount)
+
     updateBudget(existingBudget)
     setIsShowExpenseModal(false)
   }
@@ -81,7 +85,7 @@ function App() {
               <BudgetCard
                 key={budget.id}
                 max={budget.maximumSpending}
-                amount={100}
+                amount={budget.amount}
                 title={budget.name}
               />
             ))}
