@@ -87,6 +87,25 @@ function App() {
     setIsShowExpenseModal(false)
   }
 
+  const removeExpense = ({ expenseId, budgetId }) => {
+    const budget = budgets.find((budget) => budget.id === budgetId)
+    if (!budget) return
+
+    budget.expenses = budget.expenses.filter((expense) => {
+      return expense.id !== expenseId
+    })
+
+    updateBudget(budget)
+
+    if (budgetId === selectedBudget.id) {
+      setSelectedBudget(budget)
+    }
+
+    if (!selectedBudget.expenses.length) {
+      setIsShowExpenseViewModal(false)
+    }
+  }
+
   return (
     <>
       <Container>
@@ -135,7 +154,8 @@ function App() {
       <ExpenseListModal
         show={isShowExpenseViewModal}
         onHide={showExpenseViewModal(false)}
-        budget={selectedBudget}
+        budget={findBudgetByName(selectedBudget?.name)}
+        onRemoveExpense={removeExpense}
       />
     </>
   )
