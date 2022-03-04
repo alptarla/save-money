@@ -27,6 +27,13 @@ function budgetReducer(state = initialState, action) {
           return budget.id === action.payload.id ? action.payload : budget
         }),
       }
+    case 'REMOVE_BUDGET':
+      return {
+        ...state,
+        budgets: state.budgets.filter((budget) => {
+          return budget.id !== action.payload.id
+        }),
+      }
     default:
       return state
   }
@@ -58,9 +65,13 @@ function BudgetProvider({ children }) {
     dispatch({ type: 'UPDATE_BUDGET', payload: budgetObj })
   }
 
+  const removeBudget = (budget) => {
+    dispatch({ type: 'REMOVE_BUDGET', payload: budget })
+  }
+
   return (
     <BudgetContext.Provider
-      value={{ ...state, addBudget, getBudgets, updateBudget }}
+      value={{ ...state, addBudget, getBudgets, updateBudget, removeBudget }}
     >
       {children}
     </BudgetContext.Provider>

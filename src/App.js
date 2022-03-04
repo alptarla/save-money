@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import { useEffect, useState } from 'react'
-import { Container, Stack } from 'react-bootstrap'
+import { Alert, Container, Stack } from 'react-bootstrap'
 import BudgetCard from './components/BudgetCard'
 import BudgetModal from './components/BudgetModal'
 import ExpenseListModal from './components/ExpenseListModal'
@@ -24,7 +24,8 @@ function App() {
     setSelectedBudget(budget)
   }
 
-  const { addBudget, budgets, getBudgets, updateBudget } = useBudget()
+  const { addBudget, budgets, getBudgets, updateBudget, removeBudget } =
+    useBudget()
 
   useEffect(() => {
     getBudgets()
@@ -112,27 +113,33 @@ function App() {
           onAddExpense={showExpenseModal(true)}
         />
         <main className="my-5">
-          <Stack direction="vertical" gap={5}>
-            {budgets.map((budget) => (
+          {budgets.length ? (
+            <Stack direction="vertical" gap={5}>
+              {budgets.map((budget) => (
+                <BudgetCard
+                  key={budget.id}
+                  budget={budget}
+                  isGray={budget.name === 'Uncategorized'}
+                  isPrograssBarHidden={budget.name === 'Uncategorized'}
+                  onAddExpense={showExpenseModal(true, budget)}
+                  onViewExpense={showExpenseViewModal(true, budget)}
+                  onRemove={removeBudget}
+                />
+              ))}
+
               <BudgetCard
-                key={budget.id}
-                max={budget.maximumSpending}
-                amount={budget.amount}
-                title={budget.name}
-                isGray={budget.name === 'Uncategorized'}
-                isPrograssBarHidden={budget.name === 'Uncategorized'}
-                onAddExpense={showExpenseModal(true, budget)}
-                onViewExpense={showExpenseViewModal(true, budget)}
+                budget={{
+                  name: 'Total',
+                  amount: totalAmount,
+                  maximumSpending: totalSpending,
+                }}
+                isGray
+                isActionHidden
               />
-            ))}
-            <BudgetCard
-              max={totalSpending}
-              amount={totalAmount}
-              title="Total"
-              isGray
-              isActionHidden
-            />
-          </Stack>
+            </Stack>
+          ) : (
+            <Alert variant="warning">No budget yet!</Alert>
+          )}
         </main>
       </Container>
 

@@ -3,35 +3,53 @@ import { Button, Card, ProgressBar, Stack } from 'react-bootstrap'
 import BudgetPrice from './BudgetPrice'
 
 function BudgetCard({
-  title,
-  amount,
-  max,
+  budget,
   onAddExpense,
   onViewExpense,
   isGray,
   isActionHidden = false,
   isPrograssBarHidden = false,
+  onRemove,
 }) {
+  const { amount, maximumSpending, name } = budget
+
   let cardClassNames = isGray
     ? 'bg-light'
-    : amount > max
+    : amount > maximumSpending
     ? 'bg-danger bg-opacity-10'
     : null
 
   const progressBarColor =
-    amount / max < 0.5 ? 'primary' : amount / max < 0.75 ? 'warning' : 'danger'
+    amount / maximumSpending < 0.5
+      ? 'primary'
+      : amount / maximumSpending < 0.75
+      ? 'warning'
+      : 'danger'
+
+  const handleRemoveBudget = () => onRemove(budget)
 
   return (
     <Card className={cardClassNames}>
+      {!isActionHidden && (
+        <Button
+          size="sm"
+          variant="danger"
+          className="position-absolute top-0 end-0"
+          style={{ margin: '-0.5rem' }}
+          onClick={handleRemoveBudget}
+        >
+          &times;
+        </Button>
+      )}
       <Card.Body>
         <Stack direction="horizontal">
-          <Card.Title className="me-auto">{title}</Card.Title>
-          <BudgetPrice amount={amount} max={max} />
+          <Card.Title className="me-auto">{name}</Card.Title>
+          <BudgetPrice amount={amount} max={maximumSpending} />
         </Stack>
         {!isPrograssBarHidden && (
           <ProgressBar
             className="my-3"
-            max={max}
+            max={maximumSpending}
             now={amount}
             variant={progressBarColor}
           />
