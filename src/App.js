@@ -1,8 +1,10 @@
+import { nanoid } from 'nanoid'
 import { useState } from 'react'
 import { Container } from 'react-bootstrap'
 import BudgetCard from './components/BudgetCard'
 import BudgetModal from './components/BudgetModal'
 import Header from './components/Header'
+import { useBudget } from './context/BudgetContext'
 
 function App() {
   const [isShowBudgetModal, setIsShowBudgetModal] = useState(false)
@@ -11,8 +13,15 @@ function App() {
   const showBudgetModal = (isShow) => () => setIsShowBudgetModal(isShow)
   const showExpanseModal = (isShow) => () => setIsShowExpenseModal(isShow)
 
-  const addBudget = (newBudget) => {
-    console.log('newBudget', newBudget)
+  const { addBudget } = useBudget()
+
+  const handleAddBudget = (newBudget) => {
+    addBudget({
+      id: nanoid(),
+      ...newBudget,
+    })
+
+    setIsShowBudgetModal(false)
   }
 
   return (
@@ -32,7 +41,7 @@ function App() {
       <BudgetModal
         show={isShowBudgetModal}
         onHide={showBudgetModal(false)}
-        onAdd={addBudget}
+        onAdd={handleAddBudget}
       />
     </>
   )
