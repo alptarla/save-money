@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useBudget } from '../context/BudgetContext'
 
-function NewExpenseForm({ onSubmit, defaultBudget }) {
+function NewExpenseForm({ onSubmit, budget: defaultBudget }) {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [budget, setBudget] = useState(defaultBudget?.name || 'Uncategorized')
