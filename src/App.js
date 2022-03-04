@@ -12,7 +12,7 @@ function App() {
   const [isShowExpenseModal, setIsShowExpenseModal] = useState(false)
 
   const showBudgetModal = (isShow) => () => setIsShowBudgetModal(isShow)
-  const showExpanseModal = (isShow) => () => setIsShowExpenseModal(isShow)
+  const showExpenseModal = (isShow) => () => setIsShowExpenseModal(isShow)
 
   const { addBudget, budgets, getBudgets, updateBudget } = useBudget()
 
@@ -82,7 +82,7 @@ function App() {
         <Header
           title="Budget"
           onAddBudget={showBudgetModal(true)}
-          onAddExpense={showExpanseModal(true)}
+          onAddExpense={showExpenseModal(true)}
         />
         <main className="my-5">
           <Stack direction="vertical" gap={5}>
@@ -115,7 +115,7 @@ function App() {
       />
       <ExpenseModal
         show={isShowExpenseModal}
-        onHide={showExpanseModal(false)}
+        onHide={showExpenseModal(false)}
         onAdd={handleAddExpense}
       />
     </>
