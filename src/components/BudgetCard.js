@@ -10,13 +10,11 @@ function BudgetCard({
   onViewExpense,
   isGray,
 }) {
-  let cardClassNames = null
+  let cardClassNames =
+    amount > max ? 'bg-danger bg-opacity-10' : isGray ? 'bg-light' : null
 
-  if (amount > max) {
-    cardClassNames = 'bg-danger bg-opacity-10'
-  } else if (isGray) {
-    cardClassNames = 'bg-light'
-  }
+  const progressBarColor =
+    amount / max < 0.5 ? 'primary' : amount / max < 0.75 ? 'warning' : 'danger'
 
   return (
     <Card className={cardClassNames}>
@@ -25,7 +23,12 @@ function BudgetCard({
           <Card.Title className="me-auto">{title}</Card.Title>
           <BudgetPrice amount={amount} max={max} />
         </Stack>
-        <ProgressBar className="my-3" max={max} now={amount} />
+        <ProgressBar
+          className="my-3"
+          max={max}
+          now={amount}
+          variant={progressBarColor}
+        />
         <Stack direction="horizontal" gap={2}>
           <Button
             variant="outline-primary"
