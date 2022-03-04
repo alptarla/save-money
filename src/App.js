@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Container, Stack } from 'react-bootstrap'
 import BudgetCard from './components/BudgetCard'
 import BudgetModal from './components/BudgetModal'
+import ExpenseListModal from './components/ExpenseListModal'
 import ExpenseModal from './components/ExpenseModal'
 import Header from './components/Header'
 import { useBudget } from './context/BudgetContext'
@@ -10,11 +11,16 @@ import { useBudget } from './context/BudgetContext'
 function App() {
   const [isShowBudgetModal, setIsShowBudgetModal] = useState(false)
   const [isShowExpenseModal, setIsShowExpenseModal] = useState(false)
+  const [isShowExpenseViewModal, setIsShowExpenseViewModal] = useState(false)
   const [selectedBudget, setSelectedBudget] = useState(null)
 
   const showBudgetModal = (isShow) => () => setIsShowBudgetModal(isShow)
   const showExpenseModal = (isShow, budget) => () => {
     setIsShowExpenseModal(isShow)
+    setSelectedBudget(budget)
+  }
+  const showExpenseViewModal = (isShow, budget) => () => {
+    setIsShowExpenseViewModal(isShow)
     setSelectedBudget(budget)
   }
 
@@ -100,6 +106,7 @@ function App() {
                 isGray={budget.name === 'Uncategorized'}
                 isPrograssBarHidden={budget.name === 'Uncategorized'}
                 onAddExpense={showExpenseModal(true, budget)}
+                onViewExpense={showExpenseViewModal(true, budget)}
               />
             ))}
             <BudgetCard
@@ -123,7 +130,12 @@ function App() {
         show={isShowExpenseModal}
         onHide={showExpenseModal(false)}
         onAdd={handleAddExpense}
-        defaultBudget={selectedBudget}
+        budget={selectedBudget}
+      />
+      <ExpenseListModal
+        show={isShowExpenseViewModal}
+        onHide={showExpenseViewModal(false)}
+        budget={selectedBudget}
       />
     </>
   )
