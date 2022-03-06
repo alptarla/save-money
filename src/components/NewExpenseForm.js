@@ -30,7 +30,7 @@ function NewExpenseForm({ onSubmit, budget: defaultBudget }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-2">
-        <Form.Label htmlFor="expense">Description</Form.Label>
+        <Form.Label htmlFor="description">Description</Form.Label>
         <Form.Control
           type="text"
           id="description"
