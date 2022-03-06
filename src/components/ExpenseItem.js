@@ -9,7 +9,12 @@ function ExpenseItem({ expense, onRemove }) {
       <p>{expense.description}</p>
       <Stack className="ms-auto" direction="horizontal" gap={2}>
         <span>{expense.amount}</span>
-        <Button variant="outline-danger" size="sm" onClick={handleRemove}>
+        <Button
+          variant="outline-danger"
+          size="sm"
+          onClick={handleRemove}
+          data-testid="remove-expense"
+        >
           &times;
         </Button>
       </Stack>
