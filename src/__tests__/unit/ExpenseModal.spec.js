@@ -3,25 +3,29 @@ import ExpenseModal from '../../components/ExpenseModal'
 import BudgetProvider from '../../context/BudgetContext'
 import { testBudget } from './BudgetCard.spec'
 
+const onHideFn = jest.fn()
+
+function renderExpenseModal(props) {
+  return render(
+    <BudgetProvider>
+      <ExpenseModal
+        {...props}
+        show={true}
+        onHide={onHideFn}
+        budget={testBudget}
+      />
+    </BudgetProvider>
+  )
+}
+
 describe('<ExpenseModal />', () => {
-  const onHideFn = jest.fn()
-
   test('renders correctly', () => {
-    render(
-      <BudgetProvider>
-        <ExpenseModal show={true} onHide={onHideFn} budget={testBudget} />
-      </BudgetProvider>
-    )
-
+    renderExpenseModal()
     expect(screen.getByText(/new expense/i)).toBeInTheDocument()
   })
 
   test('should be call onHide correctly', () => {
-    render(
-      <BudgetProvider>
-        <ExpenseModal show={true} onHide={onHideFn} budget={testBudget} />
-      </BudgetProvider>
-    )
+    renderExpenseModal()
 
     const closeButton = screen.getByLabelText(/close/i)
     fireEvent.click(closeButton)

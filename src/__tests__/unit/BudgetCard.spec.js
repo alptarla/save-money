@@ -9,19 +9,27 @@ export const testBudget = {
   expenses: [],
 }
 
-describe('< BudgetCard />', () => {
-  const onAddExpenseFn = jest.fn()
-  const onViewExpenseFn = jest.fn()
-  const onRemoveFn = jest.fn()
+const onAddExpenseFn = jest.fn()
+const onViewExpenseFn = jest.fn()
+const onRemoveFn = jest.fn()
 
+function renderBudgetCard(props) {
+  const utils = render(
+    <BudgetCard
+      {...props}
+      budget={testBudget}
+      onAddExpense={onAddExpenseFn}
+      onViewExpense={onViewExpenseFn}
+      onRemove={onRemoveFn}
+    />
+  )
+
+  return { ...utils, props }
+}
+
+describe('<BudgetCard />', () => {
   test('should be trigger modals', () => {
-    render(
-      <BudgetCard
-        budget={testBudget}
-        onAddExpense={onAddExpenseFn}
-        onViewExpense={onViewExpenseFn}
-      />
-    )
+    renderBudgetCard()
 
     const addExpenseBtn = screen.getByRole('button', { name: /add expense/i })
     const viewExpenseBtn = screen.getByRole('button', { name: /view expense/i })
@@ -34,7 +42,7 @@ describe('< BudgetCard />', () => {
   })
 
   test('should be call onRemove function with this budget', () => {
-    render(<BudgetCard budget={testBudget} onRemove={onRemoveFn} />)
+    renderBudgetCard()
 
     const removeBtn = screen.getByTestId(/remove-budget/i)
     fireEvent.click(removeBtn)
@@ -43,7 +51,7 @@ describe('< BudgetCard />', () => {
   })
 
   test('should be hidden the action buttons in card', () => {
-    render(<BudgetCard budget={testBudget} isActionHidden />)
+    renderBudgetCard({ isActionHidden: true })
 
     const cardAction = screen.queryByTestId(/card-action/i)
     const removeBtn = screen.queryByTestId(/remove-budget/i)
@@ -53,7 +61,7 @@ describe('< BudgetCard />', () => {
   })
 
   test('should be hidden the progress bar', () => {
-    render(<BudgetCard budget={testBudget} isPrograssBarHidden />)
+    renderBudgetCard({ isPrograssBarHidden: true })
 
     const progressBar = screen.queryByTestId(/budget-progress/)
     expect(progressBar).toBeNull()

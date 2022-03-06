@@ -1,11 +1,20 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import NewBudgetForm from '../../components/NewBudgetForm'
 
+const onSubmitFn = jest.fn()
+
+function renderNewBudgetForm(props) {
+  return render(<NewBudgetForm {...props} onSubmit={onSubmitFn} />)
+}
+
 describe('<NewBudgetForm />', () => {
-  const onSubmitFn = jest.fn()
+  const submitData = {
+    name: 'test-name',
+    maximumSpending: '10',
+  }
 
   test('renders correctly', () => {
-    render(<NewBudgetForm onSubmit={onSubmitFn} />)
+    renderNewBudgetForm()
 
     expect(screen.getByLabelText(/name/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/maximum spending/i)).toBeInTheDocument()
@@ -13,12 +22,7 @@ describe('<NewBudgetForm />', () => {
   })
 
   test('should be call onSumbit function correctly', () => {
-    const submitData = {
-      name: 'test-name',
-      maximumSpending: '10',
-    }
-
-    render(<NewBudgetForm onSubmit={onSubmitFn} />)
+    renderNewBudgetForm()
 
     fireEvent.change(screen.getByLabelText(/name/i), {
       target: { value: submitData.name },

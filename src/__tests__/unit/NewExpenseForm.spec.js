@@ -3,15 +3,25 @@ import NewExpenseForm from '../../components/NewExpenseForm'
 import BudgetProvider from '../../context/BudgetContext'
 import { testBudget } from './BudgetCard.spec'
 
+const onSubmitFn = jest.fn()
+
+function renderNewExpenseForm(props) {
+  return render(
+    <BudgetProvider>
+      <NewExpenseForm {...props} onSubmit={onSubmitFn} />
+    </BudgetProvider>
+  )
+}
+
 describe('<NewExpenseForm />', () => {
-  const onSubmitFn = jest.fn()
+  const submitData = {
+    description: 'test-description',
+    amount: '10',
+    budget: 'Uncategorized',
+  }
 
   test('renders correctly', () => {
-    render(
-      <BudgetProvider>
-        <NewExpenseForm onSubmit={onSubmitFn} budget={testBudget} />
-      </BudgetProvider>
-    )
+    renderNewExpenseForm()
 
     expect(screen.getByLabelText(/description/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/amount/i)).toBeInTheDocument()
@@ -20,17 +30,7 @@ describe('<NewExpenseForm />', () => {
   })
 
   test('should be default select Uncategorized budget, if not pass to budget props', () => {
-    render(
-      <BudgetProvider>
-        <NewExpenseForm onSubmit={onSubmitFn} />
-      </BudgetProvider>
-    )
-
-    const submitData = {
-      description: 'test-description',
-      amount: '10',
-      budget: 'Uncategorized',
-    }
+    renderNewExpenseForm()
 
     fireEvent.change(screen.getByLabelText(/description/i), {
       target: { value: submitData.description },
@@ -44,26 +44,18 @@ describe('<NewExpenseForm />', () => {
   })
 
   test('should be call onSubmit function correctly', () => {
-    render(
-      <BudgetProvider>
-        <NewExpenseForm onSubmit={onSubmitFn} budget={testBudget} />
-      </BudgetProvider>
-    )
+    renderNewExpenseForm({ budget: testBudget })
 
-    const submitData = {
-      description: 'test-description',
-      amount: '10',
-      budget: testBudget.name,
-    }
+    const data = { ...submitData, budget: testBudget.name }
 
     fireEvent.change(screen.getByLabelText(/description/i), {
-      target: { value: submitData.description },
+      target: { value: data.description },
     })
     fireEvent.change(screen.getByLabelText(/amount/i), {
-      target: { value: parseInt(submitData.amount) },
+      target: { value: parseInt(data.amount) },
     })
     fireEvent.click(screen.getByRole('button', { name: /add/i }))
 
-    expect(onSubmitFn).toBeCalledWith(submitData)
+    expect(onSubmitFn).toBeCalledWith(data)
   })
 })
