@@ -8,7 +8,7 @@ describe('<ExpenseListModal />', () => {
     expect(screen.getByText(/expenses - /i)).toBeInTheDocument()
   })
 
-  test('should be call close button', () => {
+  test('should be call onHide correctly', () => {
     const onHideFn = jest.fn()
     render(
       <ExpenseListModal show={true} budget={testBudget} onHide={onHideFn} />
