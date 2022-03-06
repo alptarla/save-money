@@ -29,7 +29,7 @@ function BudgetCard({
   const handleRemoveBudget = () => onRemove(budget)
 
   return (
-    <Card className={cardClassNames}>
+    <Card className={cardClassNames} data-testid="budget-card">
       {!isActionHidden && (
         <Button
           size="sm"
@@ -37,6 +37,7 @@ function BudgetCard({
           className="position-absolute top-0 end-0"
           style={{ margin: '-0.5rem' }}
           onClick={handleRemoveBudget}
+          data-testid="remove-budget"
         >
           &times;
         </Button>
@@ -48,6 +49,7 @@ function BudgetCard({
         </Stack>
         {!isPrograssBarHidden && (
           <ProgressBar
+            data-testid="budget-progress"
             className="my-3"
             max={maximumSpending}
             now={amount}
@@ -55,7 +57,7 @@ function BudgetCard({
           />
         )}
         {!isActionHidden && (
-          <Stack direction="horizontal" gap={2}>
+          <Stack direction="horizontal" gap={2} data-testid="card-action">
             <Button
               variant="outline-primary"
               className="ms-auto"
