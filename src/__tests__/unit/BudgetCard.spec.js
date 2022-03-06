@@ -10,16 +10,16 @@ describe('< BudgetCard />', () => {
     expenses: [],
   }
 
-  const mockOnAddExpense = jest.fn()
-  const mockOnViewExpense = jest.fn()
-  const mockOnRemove = jest.fn()
+  const onAddExpenseFn = jest.fn()
+  const onViewExpenseFn = jest.fn()
+  const onRemoveFn = jest.fn()
 
   test('should be trigger modals', () => {
     render(
       <BudgetCard
         budget={testBudget}
-        onAddExpense={mockOnAddExpense}
-        onViewExpense={mockOnViewExpense}
+        onAddExpense={onAddExpenseFn}
+        onViewExpense={onViewExpenseFn}
       />
     )
 
@@ -27,19 +27,19 @@ describe('< BudgetCard />', () => {
     const viewExpenseBtn = screen.getByRole('button', { name: /view expense/i })
 
     fireEvent.click(addExpenseBtn)
-    expect(mockOnAddExpense).toBeCalled()
+    expect(onAddExpenseFn).toBeCalled()
 
     fireEvent.click(viewExpenseBtn)
-    expect(mockOnViewExpense).toBeCalled()
+    expect(onViewExpenseFn).toBeCalled()
   })
 
   test('should be call onRemove function with this budget', () => {
-    render(<BudgetCard budget={testBudget} onRemove={mockOnRemove} />)
+    render(<BudgetCard budget={testBudget} onRemove={onRemoveFn} />)
 
     const removeBtn = screen.getByTestId(/remove-budget/i)
     fireEvent.click(removeBtn)
 
-    expect(mockOnRemove).toBeCalledWith(testBudget)
+    expect(onRemoveFn).toBeCalledWith(testBudget)
   })
 
   test('should be hidden the action buttons in card', () => {
