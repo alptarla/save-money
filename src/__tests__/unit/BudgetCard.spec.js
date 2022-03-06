@@ -1,15 +1,15 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import BudgetCard from '../../components/BudgetCard'
 
-describe('< BudgetCard />', () => {
-  const testBudget = {
-    id: 'test-id',
-    name: 'test-budget',
-    maximumSpending: 100,
-    amount: 0,
-    expenses: [],
-  }
+export const testBudget = {
+  id: 'test-id',
+  name: 'test-budget',
+  maximumSpending: 100,
+  amount: 0,
+  expenses: [],
+}
 
+describe('< BudgetCard />', () => {
   const onAddExpenseFn = jest.fn()
   const onViewExpenseFn = jest.fn()
   const onRemoveFn = jest.fn()
